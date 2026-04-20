@@ -1,17 +1,16 @@
 from flask import Flask, render_template, request
 import mysql.connector
-import os
 
 app = Flask(__name__)
 
-# MySQL connection (Railway variables se)
+# Railway MySQL connection
 def get_db():
     return mysql.connector.connect(
-        host=os.getenv("MYSQLHOST"),
-        user=os.getenv("MYSQLUSER"),
-        password=os.getenv("MYSQLPASSWORD"),
-        database=os.getenv("MYSQLDATABASE"),
-        port=int(os.getenv("MYSQLPORT", 3306))
+        host="nozomi.proxy.rlwy.net",
+        user="root",
+        password="BzyxxmYNRexcCSKegAqhpVwenoDzERid",
+        database="railway",
+        port=43405
     )
 
 @app.route("/")
@@ -32,10 +31,10 @@ def submit():
     )
 
     conn.commit()
+    cursor.close()
     conn.close()
 
     return "Data saved successfully!"
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
